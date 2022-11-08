@@ -26,14 +26,10 @@ placeholder(word);
 
 button.addEventListener("click", function(e) {
     e.preventDefault();
-    //grabbing the input value(remember 'value')
    const guess = guessInput.value;
    console.log(guess);
-   //to empty the input
   guessInput.value = "";
-  //to empty the message paragraph
   message.innerText = "";
-  //to validate whether the guess meets conditions or not
   const validation = validateGuess(guess);
   console.log(validation);
 })
@@ -53,9 +49,7 @@ const validateGuess = function(input) {
 }
 
 const makeGuess = function(guess) {
-   //to change letters to uppercase
     guess.toUpperCase();
-    //to add to the guessed letters array
     if (guessedLetters.contains(guess)) {
         message.innerText = "We already have that letters"
     } else {
