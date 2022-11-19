@@ -92,7 +92,7 @@ const updateWordInProgress = function (guessedLetters) {
   };
   
 const checkIfWin = function() {
-    if (wordInProgress === word) {
+    if (revealWord === word) {
         guessedLettersElement.classList.add(".win");
     }
 }
