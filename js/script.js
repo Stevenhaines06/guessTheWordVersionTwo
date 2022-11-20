@@ -8,7 +8,7 @@ const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
 
-const word = "magnolia";
+const word = "cake";
 const guessedLetters = [];
 
 //Step 2 Display our symbols as placeholders for the secret word
@@ -92,7 +92,8 @@ const updateWordInProgress = function (guessedLetters) {
   };
   
 const checkIfWin = function() {
-    if (revealWord === word) {
-        guessedLettersElement.classList.add(".win");
+    if (wordInProgress.innerText === word.toUpperCase()) {
+        message.classList.add("win");
+        message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
     }
 }
