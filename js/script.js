@@ -8,8 +8,23 @@ const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
 
-const word = "cake";
+let word = "cake";
 const guessedLetters = [];
+let guessesRemaining = 8;
+
+const getWord = async function() {
+    const request = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const words = await request.text();
+    const wordArray = words.split("\n");
+    const randomIndex = Math.floor(Math.random() * wordArray.length);
+    word = wordArray[randomIndex].trim();
+    placeholder(word);
+}
+
+
+getWord();
+
+
 
 //Step 2 Display our symbols as placeholders for the secret word
 const placeholder = function(word) {
@@ -61,6 +76,7 @@ const makeGuess = function(guess) {
         guessedLetters.push(guess);
         console.log(guessedLetters);
         showGuessedLetters();
+        updateGuessesRemaining(guess);
         updateWordInProgress(guessedLetters);
     }
 };
@@ -90,6 +106,29 @@ const updateWordInProgress = function (guessedLetters) {
     wordInProgress.innerText = revealWord.join("");
     checkIfWin();
   };
+
+
+
+
+const updateGuessesRemaining = function(guess) {
+    const wordUpper = word.toUpperCase();
+    if (wordUpper.includes(guess)) {
+        message.innerText = `Well done, ${guess} !!! that's in the word!!`
+    } else if (!wordUpper.includes(guess)) {
+        guessesRemaining -= 1;
+        message.innerText = `So close, but ${guess} isn't in there!`
+    };
+
+    if (guessesRemaining === 0) {
+        message.innerHTML= `Game over! The word was <span class="highlight">${word}</span>.`;
+        remainingGuessesSpan.innerText = "";
+        remainingGuessesElement.innerText = "";
+    } else if (guessesRemaining === 1) {
+        remainingGuessesSpan.innerText = `${guessesRemaining} guess`;
+    } else {
+        remainingGuessesSpan.innerHTML = `${guessesRemaining} guesses`;
+    }
+}
   
 const checkIfWin = function() {
     if (wordInProgress.innerText === word.toUpperCase()) {
